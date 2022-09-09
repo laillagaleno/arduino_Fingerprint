@@ -9,8 +9,7 @@
 #define button_level2 11
 #define led_green 10
 #define led_red 9
-#define rele_int1 5
-#define rele_int2 3
+
 
 //INSTANCIANDO OBJETO 
 SoftwareSerial mySerial(3, 2); //pinos(3,2) do sensor no projeto
@@ -19,8 +18,6 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //criando objeto 
 //DECLARAÇÃO DAS VARIAVEIS E FUNÇÕES
 uint8_t id;  //Variável responsável pelo armazenamento da digital(entre 1 e 127)
 bool admin_Gravar=false; // Indicador booleano para permitir que o sensor verifique se é administrador e gravar uma digital 
-int status_blevel1 = 0;
-int status_blevel2 = 0;
 int idValue = 0;
 
 uint8_t getFingerprintEnroll(uint8_t IDgravar);
@@ -58,30 +55,11 @@ void loop(){
     admin_Gravar = false; //ao finalizar a gravação, colocar admin como false
   }
 
-  
   idValue = getFingerprintIDez(); //chama a função de ler digital
   if (idValue > 0) {
     startRele();
   }
   idValue = 0;
-
-
-  status_blevel1 = digitalRead(button_level1);
-  status_blevel2 = digitalRead(button_level1);
-   
-   if(status_blevel1 != 0){
-      digitalWrite(led_green, LOW);
-      digitalWrite(rele_int1, LOW);
-      digitalWrite(rele_int2, LOW);
-   }
-   
-   if(status_blevel2 != 0){
-      digitalWrite(led_green, LOW);
-      digitalWrite(rele_int1, LOW);
-      digitalWrite(rele_int2, LOW);
-   }
-   
- 
 }
 
 // #################### Função de ler impressão digital ########################## ###
@@ -104,10 +82,14 @@ int getFingerprintIDez(){
 
 
 void startRele(){
-     //Aciona o led e o servo motor
+     //Aciona o led e o rele
     digitalWrite(led_green, HIGH);
     digitalWrite(rele_int1, HIGH);
     digitalWrite(rele_int2, HIGH);
+    delay(300000);
+    digitalWrite(led_green, LOW);
+    digitalWrite(rele_int1, LOW);
+    digitalWrite(rele_int2, LOW);
 }
 
 
