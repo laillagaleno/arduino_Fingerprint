@@ -5,11 +5,10 @@
 
 //PINAGEM DO PROJETO
 #define push_button 13
-#define button_level1 12
-#define button_level2 11
+#define rele_int1 4
+#define rele_int2 5
 #define led_green 10
 #define led_red 9
-
 
 //INSTANCIANDO OBJETO 
 SoftwareSerial mySerial(3, 2); //pinos(3,2) do sensor no projeto
@@ -19,7 +18,6 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial); //criando objeto 
 uint8_t id;  //Variável responsável pelo armazenamento da digital(entre 1 e 127)
 bool admin_Gravar=false; // Indicador booleano para permitir que o sensor verifique se é administrador e gravar uma digital 
 int idValue = 0;
-
 uint8_t getFingerprintEnroll(uint8_t IDgravar);
 
 void setup()
@@ -79,8 +77,7 @@ int getFingerprintIDez(){
   
   return finger.fingerID;
 }
-
-
+// #################### Função de acionar rele ########################## ###
 void startRele(){
      //Aciona o led e o rele
     digitalWrite(led_green, HIGH);
@@ -92,7 +89,7 @@ void startRele(){
     digitalWrite(rele_int2, LOW);
 }
 
-
+// #################### Função de inicializar o sensor ########################## ###
 void startSensor(){
  //COMUNICAÇÃO COM O MODULO SENSOR
   finger.begin(57600); // O sensor normalmente trabalha neste valor
@@ -113,10 +110,7 @@ void startSensor(){
   }
 }
 
-
-
-
-// #################### Função de registro de impressão digital ##########################
+// #################### Função de cadastrar impressão digital ##########################
 uint8_t getFingerprintEnroll(uint8_t IDgravar) {
  
   int p = -1;
